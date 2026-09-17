@@ -15,11 +15,7 @@
     </header>
 
     <main class="mx-auto max-w-7xl px-6 py-10">
-        <section class="mb-10 rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-700 px-7 py-10 shadow-2xl">
-            <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-indigo-100">Ofertas selecionadas manualmente</p>
-            <h1 class="max-w-2xl text-4xl font-black tracking-tight sm:text-5xl">Tecnologia boa, preço melhor.</h1>
-            <p class="mt-4 max-w-xl text-indigo-100">Notebooks, celulares, periféricos e produtos gamer encontrados em lojas confiáveis.</p>
-        </section>
+
 
         <form method="GET" class="mb-8 grid gap-3 rounded-2xl border border-slate-800 bg-slate-900 p-4 md:grid-cols-[1fr_190px_190px_auto]">
             <input name="search" value="{{ request('search') }}" placeholder="Buscar produto..." class="rounded-lg border-slate-700 bg-slate-800 text-white placeholder-slate-400">

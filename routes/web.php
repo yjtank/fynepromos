@@ -3,15 +3,16 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PublicOfferController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicOfferController::class, 'index'])->name('home');
 Route::get('/oferta/{offer:slug}', [PublicOfferController::class, 'show'])->name('offers.public.show');
 Route::get('/oferta/{offer:slug}/clique', [PublicOfferController::class, 'click'])->name('offers.click');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', DashboardController::class)
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::resource('offers', OfferController::class);
