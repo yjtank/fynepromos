@@ -69,14 +69,19 @@ O acesso às ofertas fica em `/offers`. Altere a senha antes de publicar o proje
 4. Use a validade para ocultar automaticamente uma promoção expirada.
 5. O botão público passa pelo rastreador de cliques antes de redirecionar para a loja.
 
-## Screenshots
+## Demonstração
 
-Adicione aqui as capturas da página pública e do painel administrativo quando publicar a primeira versão:
+### Página inicial pública
 
-```text
-docs/screenshots/home.png
-docs/screenshots/admin-offers.png
-```
+![Página inicial pública](docs/screenshots/foto-1.png)
+
+### Dashboard administrativo
+
+![Dashboard administrativo](docs/screenshots/foto-2.png)
+
+### Listagem de ofertas
+
+![Listagem de ofertas](docs/screenshots/foto-3.png)
 
 ## Licença
 
