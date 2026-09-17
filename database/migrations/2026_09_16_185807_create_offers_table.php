@@ -18,12 +18,12 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->string('image_url')->nullable();
+            $table->text('image_url')->nullable();
             $table->decimal('current_price', 10, 2);
             $table->decimal('old_price', 10, 2)->nullable();
             $table->string('installment_info')->nullable();
             $table->string('coupon')->nullable();
-            $table->string('purchase_url');
+            $table->text('purchase_url');
             $table->dateTime('expires_at')->nullable();
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_active')->default(true);
