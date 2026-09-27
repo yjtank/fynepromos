@@ -30,7 +30,7 @@ class PublicOfferSearchTest extends TestCase
         ]);
 
         foreach (['LOQ', 'notebook', 'mercado', 'placa dedicada', 'FYNE20'] as $search) {
-            $this->get(route('home', ['search' => $search]))
+            $this->get(route('promos.index', ['search' => $search]))
                 ->assertOk()
                 ->assertSee('Notebok LOQ');
         }
@@ -38,7 +38,7 @@ class PublicOfferSearchTest extends TestCase
 
     public function test_empty_search_result_explains_what_was_searched(): void
     {
-        $this->get(route('home', ['search' => 'produto inexistente']))
+        $this->get(route('promos.index', ['search' => 'produto inexistente']))
             ->assertOk()
             ->assertSee('Nenhuma oferta para “produto inexistente”')
             ->assertSee('Limpar busca');

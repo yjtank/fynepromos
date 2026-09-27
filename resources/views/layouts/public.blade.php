@@ -16,11 +16,11 @@
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
             </button>
             <a href="{{ route('home') }}" class="brand"><x-application-logo /></a>
-            @if(request()->routeIs('home'))
-                <form action="{{ route('home') }}" method="GET" class="header-search">
+            @if(request()->routeIs('home', 'promos.*'))
+                <form action="{{ route('promos.index') }}" method="GET" class="header-search">
                     <svg class="header-search-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
                     <input type="search" name="search" value="{{ request('search') }}" placeholder="Busque produto, loja ou categoria" aria-label="Buscar ofertas" autocomplete="off">
-                    @if(request('search'))<a href="{{ route('home', request()->except(['search', 'page'])) }}" class="header-search-clear" aria-label="Limpar busca">×</a>@endif
+                    @if(request('search'))<a href="{{ request()->fullUrlWithoutQuery(['search', 'page']) }}" class="header-search-clear" aria-label="Limpar busca">×</a>@endif
                     <button type="submit">Buscar</button>
                 </form>
             @endif
@@ -37,14 +37,14 @@
         <nav class="site-menu-nav">
             <span class="site-menu-label">Navegação</span>
             <a href="{{ route('home') }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg>Início</a>
-            <a href="{{ route('home') }}#ofertas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m20 13-7 7-9-9V4h7l9 9Z"/><circle cx="8" cy="8" r="1"/></svg>Todas as ofertas</a>
-            <a href="{{ route('home', ['featured' => 1]) }}#ofertas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg>Destaques</a>
+            <a href="{{ route('promos.index') }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m20 13-7 7-9-9V4h7l9 9Z"/><circle cx="8" cy="8" r="1"/></svg>Todas as ofertas</a>
+            <a href="{{ route('promos.featured') }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg>Destaques</a>
             @auth<a href="{{ route('dashboard') }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-16v4h6V4h-6Z"/></svg>Dashboard</a>@endauth
 
             @isset($categories)
                 <span class="site-menu-label site-menu-label--spaced">Categorias</span>
                 @foreach($categories as $category)
-                    <a href="{{ route('home', ['category' => $category->id]) }}#ofertas" class="site-menu-category"><span></span>{{ $category->name }}</a>
+                    <a href="{{ route('promos.category', $category) }}" class="site-menu-category"><span></span>{{ $category->name }}</a>
                 @endforeach
             @endisset
         </nav>

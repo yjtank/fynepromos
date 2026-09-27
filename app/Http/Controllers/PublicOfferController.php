@@ -12,7 +12,29 @@ class PublicOfferController extends Controller
 {
     public function index(Request $request): View
     {
+        return $this->catalog($request);
+    }
+
+    public function featured(Request $request): View
+    {
+        return $this->catalog($request, featuredOnly: true);
+    }
+
+    public function category(Request $request, Category $category): View
+    {
+        abort_unless($category->active, 404);
+
+        return $this->catalog($request, category: $category);
+    }
+
+    private function catalog(Request $request, bool $featuredOnly = false, ?Category $category = null): View
+    {
         $search = trim($request->string('search')->toString());
+        $activeCategory = $category ?? ($request->filled('category')
+            ? Category::where('active', true)->find($request->integer('category'))
+            : null);
+        $categoryId = $activeCategory?->id;
+        $showingFeatured = $featuredOnly || $request->boolean('featured');
 
         $offers = Offer::with(['category', 'store'])
             ->where('is_active', true)
@@ -30,9 +52,9 @@ class PublicOfferController extends Controller
                     );
                 }
             })
-            ->when($request->filled('category'), fn ($query) => $query->where('category_id', $request->integer('category')))
+            ->when($categoryId, fn ($query) => $query->where('category_id', $categoryId))
             ->when($request->filled('store'), fn ($query) => $query->where('store_id', $request->integer('store')))
-            ->when($request->boolean('featured'), fn ($query) => $query->where('is_featured', true))
+            ->when($showingFeatured, fn ($query) => $query->where('is_featured', true))
             ->latest()
             ->paginate(12)
             ->withQueryString();
@@ -40,6 +62,8 @@ class PublicOfferController extends Controller
         return view('home', [
             'offers' => $offers,
             'categories' => Category::where('active', true)->orderBy('name')->get(),
+            'activeCategory' => $activeCategory,
+            'showingFeatured' => $showingFeatured,
         ]);
     }
 

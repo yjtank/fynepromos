@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container detail-wrap">
-        <a href="{{ route('home') }}#ofertas" class="detail-back">← Voltar para as ofertas</a>
+        <a href="{{ route('promos.index') }}" class="detail-back">← Voltar para as ofertas</a>
         <article class="offer-detail {{ $offer->image_url ? '' : 'offer-detail--without-image' }}">
             @if($offer->image_url)<div class="detail-image"><img src="{{ $offer->image_url }}" alt="{{ $offer->title }}"></div>@endif
             <div class="detail-content">
@@ -16,7 +16,7 @@
                     @if($offer->installment_info)<span>{{ $offer->installment_info }}</span>@endif
                 </div>
                 @if($offer->coupon)<button class="detail-coupon" type="button" data-copy="{{ $offer->coupon }}"><span>Use o cupom</span><strong>{{ $offer->coupon }}</strong><em>Clique para copiar</em></button>@endif
-                <a href="{{ route('offers.click', $offer) }}" class="button detail-cta">Ir para {{ $offer->store->name }} <span>↗</span></a>
+                <a href="{{ route('promos.click', $offer) }}" class="button detail-cta">Ir para {{ $offer->store->name }} <span>↗</span></a>
                 <p class="redirect-note">Você será redirecionado para o site da loja.</p>
             </div>
         </article>

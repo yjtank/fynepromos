@@ -1,14 +1,24 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\OfferController;
-use App\Http\Controllers\PublicOfferController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OfferController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicOfferController;
+use App\Models\Offer;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicOfferController::class, 'index'])->name('home');
-Route::get('/oferta/{offer:slug}', [PublicOfferController::class, 'show'])->name('offers.public.show');
-Route::get('/oferta/{offer:slug}/clique', [PublicOfferController::class, 'click'])->name('offers.click');
+
+Route::prefix('promos')->name('promos.')->group(function () {
+    Route::get('/', [PublicOfferController::class, 'index'])->name('index');
+    Route::get('/destaques', [PublicOfferController::class, 'featured'])->name('featured');
+    Route::get('/categoria/{category:slug}', [PublicOfferController::class, 'category'])->name('category');
+    Route::get('/{offer:slug}/ir-para-loja', [PublicOfferController::class, 'click'])->name('click');
+    Route::get('/{offer:slug}', [PublicOfferController::class, 'show'])->name('show');
+});
+
+Route::get('/oferta/{offer:slug}', fn (Offer $offer) => to_route('promos.show', $offer, 301));
+Route::get('/oferta/{offer:slug}/clique', fn (Offer $offer) => to_route('promos.click', $offer, 301));
 
 Route::get('/dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])
