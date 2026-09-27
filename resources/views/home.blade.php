@@ -17,6 +17,28 @@
                 @endforeach
             </div>
 
+            <form method="GET" action="{{ route('home') }}#ofertas" class="filter-toolbar">
+                @if(request('search'))<input type="hidden" name="search" value="{{ request('search') }}">@endif
+                @if(request('category'))<input type="hidden" name="category" value="{{ request('category') }}">@endif
+                <div class="filter-toolbar-title">
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+                    <span>Filtros</span>
+                </div>
+                <label class="filter-select">
+                    <span>Loja</span>
+                    <select name="store">
+                        <option value="">Todas as lojas</option>
+                        @foreach($stores as $store)<option value="{{ $store->id }}" @selected(request('store') == $store->id)>{{ $store->name }}</option>@endforeach
+                    </select>
+                </label>
+                <label class="featured-filter">
+                    <input type="checkbox" name="featured" value="1" @checked(request()->boolean('featured'))>
+                    <span>Somente destaques</span>
+                </label>
+                <button class="button filter-apply" type="submit">Aplicar filtros</button>
+                @if(request()->hasAny(['category', 'store', 'featured']))<a class="filter-clear" href="{{ route('home', request()->only('search')) }}#ofertas">Limpar</a>@endif
+            </form>
+
             <div class="offer-grid">
                 @forelse($offers as $offer)
                     @php
