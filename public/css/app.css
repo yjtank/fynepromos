@@ -40,11 +40,11 @@ svg { display: block; }
 .header-search svg { position: absolute; top: 50%; left: 13px; width: 18px; fill: none; stroke: var(--muted); stroke-width: 1.8; transform: translateY(-50%); }
 .header-search input { width: 100%; height: 40px; padding: 0 14px 0 40px; border: 1px solid var(--line); border-radius: 9px; outline: 0; background: var(--surface-2); color: var(--text); font-size: .82rem; }
 .header-search input:focus { border-color: var(--brand); }
-.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 900; letter-spacing: -.04em; }
-.brand-mark { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid #8b5cf6; border-radius: 9px; background: #7c3aed; }
-.brand-mark svg { width: 23px; height: 23px; fill: #fff; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: #8b5cf6; font-weight: 900; letter-spacing: -.04em; }
+.brand-mark { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid currentColor; border-radius: 9px; background: transparent; }
+.brand-mark svg { width: 23px; height: 23px; fill: currentColor; }
 .brand-name { font-size: 1.2rem; }
-.brand-name span { color: #8b5cf6; }
+.brand-name span { color: inherit; }
 .brand--large .brand-mark { width: 48px; height: 48px; border-radius: 14px; }
 .brand--large .brand-name { font-size: 1.5rem; }
 .icon-button { display: inline-grid; width: 42px; height: 42px; padding: 0; place-items: center; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-2); color: var(--muted); cursor: pointer; transition: .2s ease; }
@@ -57,7 +57,7 @@ svg { display: block; }
 .button--danger { background: rgba(251,113,133,.12); color: var(--danger); }
 .site-footer { margin-top: 64px; border-top: 1px solid var(--line); background: #07070c; }
 .site-footer-inner { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 40px; min-height: 120px; color: var(--muted); font-size: .84rem; }
-.site-footer .brand { color: var(--text); }
+.site-footer .brand { color: #8b5cf6; }
 
 /* Public catalog */
 .catalog { padding: 46px 0 10px; }
