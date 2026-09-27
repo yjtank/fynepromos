@@ -5,11 +5,6 @@
 @section('content')
     <section class="catalog" id="ofertas">
         <div class="container">
-            <div class="catalog-heading">
-                <div><span class="section-kicker">Atualizadas diariamente</span><h1>Ofertas mais recentes</h1><p>Promoções de tecnologia selecionadas em lojas confiáveis.</p></div>
-                <span class="result-count">{{ $offers->total() }} {{ $offers->total() === 1 ? 'resultado' : 'resultados' }}</span>
-            </div>
-
             <div class="category-strip" aria-label="Categorias">
                 <a href="{{ route('home', request()->except(['category', 'page'])) }}#ofertas" class="category-chip {{ request('category') ? '' : 'is-active' }}">Todas</a>
                 @foreach($categories as $category)
