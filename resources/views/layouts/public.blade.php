@@ -18,8 +18,10 @@
             <a href="{{ route('home') }}" class="brand"><x-application-logo /></a>
             @if(request()->routeIs('home'))
                 <form action="{{ route('home') }}" method="GET" class="header-search">
-                    <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-                    <input name="search" value="{{ request('search') }}" placeholder="Procurar produto..." aria-label="Procurar produto">
+                    <svg class="header-search-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+                    <input type="search" name="search" value="{{ request('search') }}" placeholder="Busque produto, loja ou categoria" aria-label="Buscar ofertas" autocomplete="off">
+                    @if(request('search'))<a href="{{ route('home', request()->except(['search', 'page'])) }}" class="header-search-clear" aria-label="Limpar busca">×</a>@endif
+                    <button type="submit">Buscar</button>
                 </form>
             @endif
             @auth<div class="site-header-actions"><a href="{{ route('dashboard') }}" class="button button--quiet">Dashboard</a></div>@endauth

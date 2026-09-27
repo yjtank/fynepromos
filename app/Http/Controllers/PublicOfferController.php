@@ -12,10 +12,24 @@ class PublicOfferController extends Controller
 {
     public function index(Request $request): View
     {
+        $search = trim($request->string('search')->toString());
+
         $offers = Offer::with(['category', 'store'])
             ->where('is_active', true)
             ->where(fn ($query) => $query->whereNull('expires_at')->orWhere('expires_at', '>', now()))
-            ->when($request->filled('search'), fn ($query) => $query->where('title', 'like', '%'.$request->string('search').'%'))
+            ->when($search !== '', function ($query) use ($search) {
+                foreach (preg_split('/\s+/', $search, flags: PREG_SPLIT_NO_EMPTY) as $term) {
+                    $term = '%'.addcslashes($term, '\\%_').'%';
+
+                    $query->where(fn ($searchQuery) => $searchQuery
+                        ->where('title', 'like', $term)
+                        ->orWhere('description', 'like', $term)
+                        ->orWhere('coupon', 'like', $term)
+                        ->orWhereHas('store', fn ($storeQuery) => $storeQuery->where('name', 'like', $term))
+                        ->orWhereHas('category', fn ($categoryQuery) => $categoryQuery->where('name', 'like', $term))
+                    );
+                }
+            })
             ->when($request->filled('category'), fn ($query) => $query->where('category_id', $request->integer('category')))
             ->when($request->filled('store'), fn ($query) => $query->where('store_id', $request->integer('store')))
             ->when($request->boolean('featured'), fn ($query) => $query->where('is_featured', true))

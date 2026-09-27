@@ -45,7 +45,21 @@
                         <a href="{{ route('offers.public.show', $offer) }}" class="offer-cta">Ver promoção <span>→</span></a>
                     </article>
                 @empty
-                    <div class="empty-state"><span>⌁</span><h3>Nenhuma oferta por aqui</h3><p>Tente remover algum filtro ou buscar por outro produto.</p><a href="{{ route('home') }}" class="button">Ver todas</a></div>
+                    <div class="empty-state">
+                        <span class="empty-state-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m19 19-3.8-3.8M8 10.5h5"/></svg></span>
+                        @if(request('search'))
+                            <h3>Nenhuma oferta para “{{ request('search') }}”</h3>
+                            <p>Confira a escrita ou tente buscar pelo produto, pela loja ou pela categoria.</p>
+                            <a href="{{ route('home', request()->except(['search', 'page'])) }}" class="button button--quiet">Limpar busca</a>
+                        @elseif(request()->hasAny(['category', 'store', 'featured']))
+                            <h3>Nenhuma oferta nesta seleção</h3>
+                            <p>Esta categoria ainda não possui promoções disponíveis.</p>
+                            <a href="{{ route('home') }}" class="button button--quiet">Ver todas as ofertas</a>
+                        @else
+                            <h3>Ainda não há ofertas publicadas</h3>
+                            <p>Novas promoções aparecerão aqui assim que forem adicionadas.</p>
+                        @endif
+                    </div>
                 @endforelse
             </div>
             @if($offers->hasPages())<div class="pagination-wrap">{{ $offers->links() }}</div>@endif
