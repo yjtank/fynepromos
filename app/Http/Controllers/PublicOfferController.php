@@ -71,7 +71,10 @@ class PublicOfferController extends Controller
     {
         abort_unless($offer->is_active && ! $offer->isExpired(), 404);
 
-        return view('offers.public-show', compact('offer'));
+        return view('offers.public-show', [
+            'offer' => $offer,
+            'categories' => Category::where('active', true)->orderBy('name')->get(),
+        ]);
     }
 
     public function click(Offer $offer): RedirectResponse

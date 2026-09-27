@@ -30,7 +30,11 @@ class FriendlyPublicRoutesTest extends TestCase
         $this->get('/promos')->assertOk()->assertSee('/promos/notebook-gamer', escape: false);
         $this->get('/promos/destaques')->assertOk()->assertSee('Notebook gamer');
         $this->get('/promos/categoria/notebooks')->assertOk()->assertSee('Notebook gamer');
-        $this->get('/promos/notebook-gamer')->assertOk()->assertSee('Notebook gamer');
+        $this->get('/promos/notebook-gamer')
+            ->assertOk()
+            ->assertSee('Notebook gamer')
+            ->assertSee(route('promos.featured'), escape: false)
+            ->assertSee(route('promos.category', $category), escape: false);
         $this->get('/oferta/notebook-gamer')->assertRedirect(route('promos.show', $offer));
     }
 }

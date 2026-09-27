@@ -16,6 +16,13 @@
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
             </button>
             <a href="{{ route('home') }}" class="brand"><x-application-logo /></a>
+            <nav class="site-navigation" aria-label="Navegação principal">
+                <a href="{{ route('promos.index') }}" class="{{ request()->routeIs('home', 'promos.index', 'promos.category') ? 'is-active' : '' }}">Promos</a>
+                <a href="{{ route('promos.featured') }}" class="{{ request()->routeIs('promos.featured') ? 'is-active' : '' }}">Destaques</a>
+                @if(isset($categories) && $categories->isNotEmpty())
+                    <a href="{{ route('promos.category', $categories->first()) }}">Categorias</a>
+                @endif
+            </nav>
             @if(request()->routeIs('home', 'promos.*'))
                 <form action="{{ route('promos.index') }}" method="GET" class="header-search">
                     <svg class="header-search-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
