@@ -3,31 +3,10 @@
 @section('title', 'Ofertas de tecnologia')
 
 @section('content')
-    <section class="hero">
-        <div class="container hero-grid">
-            <div class="hero-copy">
-                <span class="eyebrow"><i></i> Promoções escolhidas a dedo</span>
-                <h1>Preço bom.<br><span>Sem perder tempo.</span></h1>
-                <p>As melhores ofertas de tecnologia reunidas em um só lugar, com preço, cupom e condição de pagamento bem claros.</p>
-                <div class="hero-actions">
-                    <a href="#ofertas" class="button button--hero">Ver ofertas <span>↓</span></a>
-                    <span class="hero-proof"><strong>{{ number_format($offers->total(), 0, ',', '.') }}</strong> ofertas disponíveis agora</span>
-                </div>
-            </div>
-            <div class="hero-visual" aria-hidden="true">
-                <div class="hero-orbit hero-orbit--one"></div>
-                <div class="hero-orbit hero-orbit--two"></div>
-                <div class="hero-bolt"><svg viewBox="0 0 80 104"><path d="M48 2 7 57h27l-7 45 46-61H46L48 2Z"/></svg></div>
-                <span class="hero-tag hero-tag--top">OFERTA</span>
-                <span class="hero-tag hero-tag--bottom">MENOR PREÇO</span>
-            </div>
-        </div>
-    </section>
-
     <section class="catalog" id="ofertas">
         <div class="container">
             <div class="catalog-heading">
-                <div><span class="section-kicker">Catálogo</span><h2>Ofertas fresquinhas</h2></div>
+                <div><span class="section-kicker">Atualizadas diariamente</span><h1>Ofertas de tecnologia</h1><p>Promoções selecionadas em lojas confiáveis.</p></div>
                 <span class="result-count">{{ $offers->total() }} {{ $offers->total() === 1 ? 'resultado' : 'resultados' }}</span>
             </div>
 

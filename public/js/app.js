@@ -1,12 +1,4 @@
 (() => {
-    const root = document.documentElement;
-    const setTheme = (theme) => {
-        root.dataset.theme = theme;
-        localStorage.setItem('fyne-theme', theme);
-        document.querySelectorAll('[data-theme-toggle]').forEach((button) => button.setAttribute('aria-label', theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'));
-    };
-    document.querySelectorAll('[data-theme-toggle]').forEach((button) => button.addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark')));
-
     const menu = document.querySelector('[data-admin-menu]');
     const toggle = document.querySelector('[data-menu-toggle]');
     const close = document.querySelector('[data-menu-close]');
