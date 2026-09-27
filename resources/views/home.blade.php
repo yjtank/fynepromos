@@ -6,7 +6,7 @@
     <section class="catalog" id="ofertas">
         <div class="container">
             <div class="catalog-heading">
-                <div><span class="section-kicker">Atualizadas diariamente</span><h1>Ofertas de tecnologia</h1><p>Promoções selecionadas em lojas confiáveis.</p></div>
+                <div><span class="section-kicker">Atualizadas diariamente</span><h1>Ofertas mais recentes</h1><p>Promoções de tecnologia selecionadas em lojas confiáveis.</p></div>
                 <span class="result-count">{{ $offers->total() }} {{ $offers->total() === 1 ? 'resultado' : 'resultados' }}</span>
             </div>
 
