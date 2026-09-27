@@ -7,7 +7,7 @@ Catálogo simples de promoções de tecnologia, mantido manualmente. O projeto r
 - Laravel 12
 - PHP 8.2+
 - MySQL
-- Blade, Tailwind CSS e Vite
+- Blade, CSS e JavaScript estáticos (sem npm ou etapa de build)
 - Laravel Breeze para autenticação
 
 ## Funcionalidades
@@ -45,12 +45,20 @@ Depois execute:
 
 ```bash
 php artisan migrate --seed
-npm install
-npm run dev
 php artisan serve
 ```
 
 Acesse `http://127.0.0.1:8000`.
+
+## Personalização visual
+
+O tema não depende de React, npm, Vite ou Tailwind em tempo de desenvolvimento. Os arquivos usados pelo navegador ficam diretamente em:
+
+- `public/css/app.css`: identidade visual, componentes e responsividade
+- `public/css/vendor.css`: utilitários legados usados pelas telas secundárias
+- `public/js/app.js`: tema claro/escuro, menu móvel e cópia de cupons
+
+As principais decisões visuais estão concentradas nas variáveis do bloco `:root` no início de `public/css/app.css`. Altere cores, tipografia, raios, sombras e largura máxima ali para customizar toda a interface.
 
 ## Acesso administrativo local
 
