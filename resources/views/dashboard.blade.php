@@ -40,8 +40,8 @@
             <header class="panel-heading"><div><span class="section-kicker">Movimentação</span><h2>Ofertas recentes</h2></div><a href="{{ route('offers.index') }}">Ver todas <span>→</span></a></header>
             <div class="recent-list">
                 @forelse($recentOffers as $offer)
-                    <article class="recent-offer">
-                        <div class="recent-thumb">@if($offer->image_url)<img src="{{ $offer->image_url }}" alt="">@else<span>FP</span>@endif</div>
+                    <article class="recent-offer {{ $offer->image_url ? '' : 'recent-offer--without-image' }}">
+                        @if($offer->image_url)<div class="recent-thumb"><img src="{{ $offer->image_url }}" alt=""></div>@endif
                         <div class="recent-copy"><strong>{{ $offer->title }}</strong><span>{{ $offer->store->name }} · {{ $offer->category->name }}</span></div>
                         <span class="status-badge {{ $offer->is_active && ! $offer->isExpired() ? 'is-active' : 'is-inactive' }}">{{ $offer->is_active && ! $offer->isExpired() ? 'Ativa' : 'Inativa' }}</span>
                         <div class="recent-price"><strong>R$ {{ number_format($offer->current_price, 2, ',', '.') }}</strong><span>{{ $offer->clicks_count }} cliques</span></div>

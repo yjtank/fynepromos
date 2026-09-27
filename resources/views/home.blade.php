@@ -51,11 +51,11 @@
                             <span>{{ $offer->store->name }}</span>
                             <time datetime="{{ $offer->created_at->toIso8601String() }}">{{ $offer->created_at->locale('pt_BR')->diffForHumans() }}</time>
                         </div>
-                        <a href="{{ route('offers.public.show', $offer) }}" class="offer-card-content">
-                            <div class="offer-image">
-                                @if($offer->image_url)<img src="{{ $offer->image_url }}" alt="{{ $offer->title }}" loading="lazy">@else<span>F<span>P</span></span>@endif
+                        <a href="{{ route('offers.public.show', $offer) }}" class="offer-card-content {{ $offer->image_url ? 'has-image' : 'has-no-image' }}">
+                            @if($offer->image_url)<div class="offer-image">
+                                <img src="{{ $offer->image_url }}" alt="{{ $offer->title }}" loading="lazy">
                                 @if($discount)<strong>-{{ $discount }}%</strong>@endif
-                            </div>
+                            </div>@endif
                             <div class="offer-info">
                                 <span class="offer-category">{{ $offer->category->name }}</span>
                                 <h3>{{ $offer->title }}</h3>

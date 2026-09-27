@@ -7,6 +7,7 @@ use App\Models\Offer;
 use App\Models\Store;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -30,9 +31,10 @@ class OfferController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $data = $this->validated($request);
+        $data = $this->withImage($request, $this->validated($request));
         $data['slug'] = $this->uniqueSlug($data['title']);
         Offer::create($data);
+
         return to_route('offers.index')->with('status', 'Oferta criada com sucesso.');
     }
 
@@ -57,9 +59,10 @@ class OfferController extends Controller
      */
     public function update(Request $request, Offer $offer): RedirectResponse
     {
-        $data = $this->validated($request);
+        $data = $this->withImage($request, $this->validated($request), $offer);
         $data['slug'] = $offer->title !== $data['title'] ? $this->uniqueSlug($data['title'], $offer->id) : $offer->slug;
         $offer->update($data);
+
         return to_route('offers.index')->with('status', 'Oferta atualizada com sucesso.');
     }
 
@@ -68,7 +71,9 @@ class OfferController extends Controller
      */
     public function destroy(Offer $offer): RedirectResponse
     {
+        $this->deleteStoredImage($offer->image_url);
         $offer->delete();
+
         return to_route('offers.index')->with('status', 'Oferta removida com sucesso.');
     }
 
@@ -88,6 +93,7 @@ class OfferController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'image_url' => ['nullable', 'url', 'max:2048'],
+            'image_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,avif', 'max:4096'],
             'current_price' => ['required', 'numeric', 'min:0'],
             'old_price' => ['nullable', 'numeric', 'min:0'],
             'installment_info' => ['nullable', 'string', 'max:255'],
@@ -99,6 +105,43 @@ class OfferController extends Controller
         ]) + ['is_featured' => $request->boolean('is_featured'), 'is_active' => $request->boolean('is_active')];
     }
 
+    private function withImage(Request $request, array $data, ?Offer $offer = null): array
+    {
+        unset($data['image_file']);
+
+        if ($request->hasFile('image_file')) {
+            $this->deleteStoredImage($offer?->image_url);
+            $data['image_url'] = Storage::disk('public')->url(
+                $request->file('image_file')->store('offers', 'public')
+            );
+
+            return $data;
+        }
+
+        if ($request->filled('image_url')) {
+            if ($request->string('image_url')->toString() !== $offer?->image_url) {
+                $this->deleteStoredImage($offer?->image_url);
+            }
+
+            return $data;
+        }
+
+        if ($offer) {
+            unset($data['image_url']);
+        }
+
+        return $data;
+    }
+
+    private function deleteStoredImage(?string $imageUrl): void
+    {
+        if (! $imageUrl || ! Str::startsWith($imageUrl, '/storage/')) {
+            return;
+        }
+
+        Storage::disk('public')->delete(Str::after($imageUrl, '/storage/'));
+    }
+
     private function uniqueSlug(string $title, ?int $ignoreId = null): string
     {
         $base = Str::slug($title) ?: 'oferta';
@@ -107,6 +150,7 @@ class OfferController extends Controller
         while (Offer::where('slug', $slug)->when($ignoreId, fn ($query) => $query->where('id', '!=', $ignoreId))->exists()) {
             $slug = $base.'-'.$counter++;
         }
+
         return $slug;
     }
 }

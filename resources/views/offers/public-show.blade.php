@@ -5,10 +5,8 @@
 @section('content')
     <div class="container detail-wrap">
         <a href="{{ route('home') }}#ofertas" class="detail-back">← Voltar para as ofertas</a>
-        <article class="offer-detail">
-            <div class="detail-image">
-                @if($offer->image_url)<img src="{{ $offer->image_url }}" alt="{{ $offer->title }}">@else<span class="detail-placeholder">F<span>P</span></span>@endif
-            </div>
+        <article class="offer-detail {{ $offer->image_url ? '' : 'offer-detail--without-image' }}">
+            @if($offer->image_url)<div class="detail-image"><img src="{{ $offer->image_url }}" alt="{{ $offer->title }}"></div>@endif
             <div class="detail-content">
                 <div class="detail-meta"><span>{{ $offer->category->name }}</span><i></i><span>{{ $offer->store->name }}</span>@if($offer->is_featured)<strong>Destaque</strong>@endif</div>
                 <h1>{{ $offer->title }}</h1>
