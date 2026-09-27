@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Offer;
-use App\Models\Store;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -27,7 +26,6 @@ class PublicOfferController extends Controller
         return view('home', [
             'offers' => $offers,
             'categories' => Category::where('active', true)->orderBy('name')->get(),
-            'stores' => Store::where('active', true)->orderBy('name')->get(),
         ]);
     }
 
