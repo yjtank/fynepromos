@@ -6,7 +6,7 @@ Catálogo simples de promoções de tecnologia, mantido manualmente. O projeto r
 
 - Laravel 12
 - PHP 8.2+
-- MySQL
+- SQLite por padrão (MySQL opcional)
 - Blade, CSS e JavaScript estáticos (sem npm ou etapa de build)
 - Laravel Breeze para autenticação
 
@@ -30,7 +30,7 @@ copy .env.example .env
 php artisan key:generate
 ```
 
-Configure no `.env`:
+O ambiente local usa `database/database.sqlite` por padrão, sem depender de um servidor de banco. Para usar MySQL, altere o `.env`:
 
 ```env
 DB_CONNECTION=mysql
@@ -56,7 +56,7 @@ O tema não depende de React, npm, Vite ou Tailwind em tempo de desenvolvimento.
 
 - `public/css/app.css`: identidade visual, componentes e responsividade
 - `public/css/vendor.css`: utilitários legados usados pelas telas secundárias
-- `public/js/app.js`: tema claro/escuro, menu móvel e cópia de cupons
+- `public/js/app.js`: menu móvel e cópia de cupons
 
 As principais decisões visuais estão concentradas nas variáveis do bloco `:root` no início de `public/css/app.css`. Altere cores, tipografia, raios, sombras e largura máxima ali para customizar toda a interface.
 
