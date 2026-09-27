@@ -1,74 +1,96 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FynePromos — Ofertas de tecnologia</title>
-    <link rel="stylesheet" href="{{ asset('css/vendor.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script src="{{ asset('js/app.js') }}" defer></script>
-</head>
-<body class="min-h-screen bg-slate-950 text-slate-100">
-    <header class="border-b border-slate-800">
-        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-            <a href="{{ route('home') }}" class="text-2xl font-black">Fyne<span class="text-indigo-400">Promos</span></a>
-            <a href="{{ route('login') }}" class="text-sm text-slate-300 hover:text-white">Área administrativa</a>
+@extends('layouts.public')
+
+@section('title', 'Ofertas de tecnologia')
+
+@section('content')
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-copy">
+                <span class="eyebrow"><i></i> Promoções escolhidas a dedo</span>
+                <h1>Preço bom.<br><span>Sem perder tempo.</span></h1>
+                <p>As melhores ofertas de tecnologia reunidas em um só lugar, com preço, cupom e condição de pagamento bem claros.</p>
+                <div class="hero-actions">
+                    <a href="#ofertas" class="button button--hero">Ver ofertas <span>↓</span></a>
+                    <span class="hero-proof"><strong>{{ number_format($offers->total(), 0, ',', '.') }}</strong> ofertas disponíveis agora</span>
+                </div>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+                <div class="hero-orbit hero-orbit--one"></div>
+                <div class="hero-orbit hero-orbit--two"></div>
+                <div class="hero-bolt"><svg viewBox="0 0 80 104"><path d="M48 2 7 57h27l-7 45 46-61H46L48 2Z"/></svg></div>
+                <span class="hero-tag hero-tag--top">OFERTA</span>
+                <span class="hero-tag hero-tag--bottom">MENOR PREÇO</span>
+            </div>
         </div>
-    </header>
+    </section>
 
-    <main class="mx-auto max-w-7xl px-6 py-10">
+    <section class="catalog" id="ofertas">
+        <div class="container">
+            <div class="catalog-heading">
+                <div><span class="section-kicker">Catálogo</span><h2>Ofertas fresquinhas</h2></div>
+                <span class="result-count">{{ $offers->total() }} {{ $offers->total() === 1 ? 'resultado' : 'resultados' }}</span>
+            </div>
 
+            <form method="GET" action="{{ route('home') }}" class="filter-panel">
+                <label class="search-field">
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+                    <span class="sr-only">Buscar produto</span>
+                    <input name="search" value="{{ request('search') }}" placeholder="Qual produto você procura?">
+                </label>
+                <label class="select-field"><span class="sr-only">Loja</span>
+                    <select name="store">
+                        <option value="">Todas as lojas</option>
+                        @foreach($stores as $store)<option value="{{ $store->id }}" @selected(request('store') == $store->id)>{{ $store->name }}</option>@endforeach
+                    </select>
+                </label>
+                <button class="button filter-button">Buscar</button>
+                @if(request()->hasAny(['search', 'category', 'store']))<a class="clear-filter" href="{{ route('home') }}">Limpar</a>@endif
+            </form>
 
-        <form method="GET" class="mb-8 grid gap-3 rounded-2xl border border-slate-800 bg-slate-900 p-4 md:grid-cols-[1fr_190px_190px_auto]">
-            <input name="search" value="{{ request('search') }}" placeholder="Buscar produto..." class="rounded-lg border-slate-700 bg-slate-800 text-white placeholder-slate-400">
-            <select name="category" class="rounded-lg border-slate-700 bg-slate-800 text-white">
-                <option value="">Todas as categorias</option>
+            <div class="category-strip" aria-label="Categorias">
+                <a href="{{ route('home', request()->except(['category', 'page'])) }}#ofertas" class="category-chip {{ request('category') ? '' : 'is-active' }}">Todas</a>
                 @foreach($categories as $category)
-                    <option value="{{ $category->id }}" @selected(request('category') == $category->id)>{{ $category->name }}</option>
+                    <a href="{{ route('home', array_merge(request()->except('page'), ['category' => $category->id])) }}#ofertas" class="category-chip {{ request('category') == $category->id ? 'is-active' : '' }}">{{ $category->name }}</a>
                 @endforeach
-            </select>
-            <select name="store" class="rounded-lg border-slate-700 bg-slate-800 text-white">
-                <option value="">Todas as lojas</option>
-                @foreach($stores as $store)
-                    <option value="{{ $store->id }}" @selected(request('store') == $store->id)>{{ $store->name }}</option>
-                @endforeach
-            </select>
-            <button class="rounded-lg bg-indigo-500 px-5 py-2 font-semibold text-white hover:bg-indigo-400">Buscar</button>
-        </form>
+            </div>
 
-        <div class="mb-5 flex items-center justify-between">
-            <h2 class="text-2xl font-bold">Ofertas recentes</h2>
-            <span class="text-sm text-slate-400">{{ $offers->total() }} encontrada(s)</span>
-        </div>
-
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            @forelse($offers as $offer)
-                <article class="group overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 shadow-lg transition hover:-translate-y-1 hover:border-indigo-500">
-                    <a href="{{ route('offers.public.show', $offer) }}" class="block">
-                        @if($offer->image_url)
-                            <img src="{{ $offer->image_url }}" alt="{{ $offer->title }}" class="h-52 w-full bg-white object-contain p-4">
-                        @else
-                            <div class="flex h-52 items-center justify-center bg-slate-800 text-slate-500">Sem imagem</div>
-                        @endif
-                        <div class="p-5">
-                            <div class="mb-2 flex justify-between text-xs font-semibold uppercase tracking-wide text-indigo-300">
-                                <span>{{ $offer->store->name }}</span>
-                                @if($offer->is_featured)<span>Destaque</span>@endif
-                            </div>
-                            <h3 class="min-h-14 text-lg font-bold text-white">{{ $offer->title }}</h3>
-                            @if($offer->old_price)<p class="mt-4 text-sm text-slate-500 line-through">R$ {{ number_format($offer->old_price, 2, ',', '.') }}</p>@endif
-                            <p class="text-2xl font-black text-emerald-400">R$ {{ number_format($offer->current_price, 2, ',', '.') }}</p>
-                            @if($offer->installment_info)<p class="mt-1 text-sm text-slate-400">{{ $offer->installment_info }}</p>@endif
-                            @if($offer->coupon)<p class="mt-3 rounded bg-amber-400/10 px-3 py-2 text-sm text-amber-300">Cupom: {{ $offer->coupon }}</p>@endif
+            <div class="offer-grid">
+                @forelse($offers as $offer)
+                    @php
+                        $discount = $offer->old_price && $offer->old_price > $offer->current_price
+                            ? round((1 - ($offer->current_price / $offer->old_price)) * 100)
+                            : null;
+                    @endphp
+                    <article class="offer-card">
+                        <div class="offer-card-topline">
+                            <span>{{ $offer->store->name }}</span>
+                            <time datetime="{{ $offer->created_at->toIso8601String() }}">{{ $offer->created_at->locale('pt_BR')->diffForHumans() }}</time>
                         </div>
-                    </a>
-                </article>
-            @empty
-                <div class="col-span-full rounded-2xl border border-dashed border-slate-700 p-12 text-center text-slate-400">Nenhuma oferta encontrada.</div>
-            @endforelse
+                        <a href="{{ route('offers.public.show', $offer) }}" class="offer-card-content">
+                            <div class="offer-image">
+                                @if($offer->image_url)<img src="{{ $offer->image_url }}" alt="{{ $offer->title }}" loading="lazy">@else<span>F<span>P</span></span>@endif
+                                @if($discount)<strong>-{{ $discount }}%</strong>@endif
+                            </div>
+                            <div class="offer-info">
+                                <span class="offer-category">{{ $offer->category->name }}</span>
+                                <h3>{{ $offer->title }}</h3>
+                                <div class="offer-price-line">
+                                    <p><small>por</small> R$ {{ number_format($offer->current_price, 2, ',', '.') }}</p>
+                                    @if($offer->old_price)<del>R$ {{ number_format($offer->old_price, 2, ',', '.') }}</del>@endif
+                                </div>
+                                @if($offer->installment_info)<span class="installments">{{ $offer->installment_info }}</span>@endif
+                            </div>
+                        </a>
+                        @if($offer->coupon)
+                            <button class="coupon" type="button" data-copy="{{ $offer->coupon }}"><span>Cupom</span><strong>{{ $offer->coupon }}</strong><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg></button>
+                        @endif
+                        <a href="{{ route('offers.public.show', $offer) }}" class="offer-cta">Ver promoção <span>→</span></a>
+                    </article>
+                @empty
+                    <div class="empty-state"><span>⌁</span><h3>Nenhuma oferta por aqui</h3><p>Tente remover algum filtro ou buscar por outro produto.</p><a href="{{ route('home') }}" class="button">Ver todas</a></div>
+                @endforelse
+            </div>
+            @if($offers->hasPages())<div class="pagination-wrap">{{ $offers->links() }}</div>@endif
         </div>
-
-        <div class="mt-8">{{ $offers->links() }}</div>
-    </main>
-</body>
-</html>
+    </section>
+@endsection
