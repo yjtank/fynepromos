@@ -12,6 +12,9 @@
 <body class="site-body">
     <header class="site-header">
         <div class="site-header-inner">
+            <button class="icon-button site-menu-toggle" type="button" data-site-menu-toggle aria-label="Abrir menu" aria-expanded="false">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+            </button>
             <a href="{{ route('home') }}" class="brand"><x-application-logo /></a>
             @if(request()->routeIs('home'))
                 <form action="{{ route('home') }}" method="GET" class="header-search">
@@ -22,6 +25,30 @@
             @auth<div class="site-header-actions"><a href="{{ route('dashboard') }}" class="button button--quiet">Dashboard</a></div>@endauth
         </div>
     </header>
+    <aside class="site-menu" data-site-menu aria-label="Menu principal">
+        <div class="site-menu-header">
+            <a href="{{ route('home') }}" class="brand"><x-application-logo /></a>
+            <button class="icon-button" type="button" data-site-menu-close aria-label="Fechar menu">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
+            </button>
+        </div>
+        <nav class="site-menu-nav">
+            <span class="site-menu-label">Navegação</span>
+            <a href="{{ route('home') }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg>Início</a>
+            <a href="{{ route('home') }}#ofertas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m20 13-7 7-9-9V4h7l9 9Z"/><circle cx="8" cy="8" r="1"/></svg>Todas as ofertas</a>
+            <a href="{{ route('home', ['featured' => 1]) }}#ofertas"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg>Destaques</a>
+            @auth<a href="{{ route('dashboard') }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-16v4h6V4h-6Z"/></svg>Dashboard</a>@endauth
+
+            @isset($categories)
+                <span class="site-menu-label site-menu-label--spaced">Categorias</span>
+                @foreach($categories as $category)
+                    <a href="{{ route('home', ['category' => $category->id]) }}#ofertas" class="site-menu-category"><span></span>{{ $category->name }}</a>
+                @endforeach
+            @endisset
+        </nav>
+        <p class="site-menu-note">Ofertas de tecnologia selecionadas diariamente.</p>
+    </aside>
+    <button class="site-menu-backdrop" type="button" data-site-menu-close aria-label="Fechar menu"></button>
     <main>@yield('content')</main>
     <footer class="site-footer">
         <div class="container site-footer-inner">
