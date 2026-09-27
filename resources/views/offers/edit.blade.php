@@ -1,1 +1,5 @@
-<x-app-layout><x-slot name="header"><h2 class="font-semibold text-xl text-gray-800">Editar oferta</h2></x-slot><div class="py-8"><div class="mx-auto max-w-3xl sm:px-6 lg:px-8"><div class="bg-white p-6 shadow-sm sm:rounded-lg">@include('offers.form', ['action' => route('offers.update', $offer), 'method' => 'PUT'])</div></div></div></x-app-layout>
+<x-app-layout>
+    <x-slot name="title">Editar promoção</x-slot>
+    <x-slot name="header"><div><div><span class="section-kicker">Catálogo</span><h1>Editar promoção</h1></div></div></x-slot>
+    <section class="offer-editor">@include('offers.form', ['action' => route('offers.update', $offer), 'method' => 'PUT'])</section>
+</x-app-layout>

@@ -1,11 +1,24 @@
 <x-app-layout>
-    <x-slot name="header"><div class="flex items-center justify-between"><h2 class="font-semibold text-xl text-gray-800">Ofertas</h2><a href="{{ route('offers.create') }}" class="rounded bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">Nova oferta</a></div></x-slot>
-    <div class="py-8"><div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-        @if (session('status')) <div class="mb-4 rounded bg-green-100 p-4 text-green-800">{{ session('status') }}</div> @endif
-        <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg"><div class="overflow-x-auto p-6">
-            <table class="w-full text-left text-sm"><thead><tr class="border-b"><th class="p-3">Oferta</th><th class="p-3">Categoria</th><th class="p-3">Loja</th><th class="p-3">Preço</th><th class="p-3">Status</th><th class="p-3"></th></tr></thead><tbody>
-            @forelse ($offers as $offer)<tr class="border-b"><td class="p-3 font-medium">{{ $offer->title }}</td><td class="p-3">{{ $offer->category->name }}</td><td class="p-3">{{ $offer->store->name }}</td><td class="p-3">R$ {{ number_format($offer->current_price, 2, ',', '.') }}</td><td class="p-3">{{ $offer->is_active ? 'Ativa' : 'Inativa' }}</td><td class="p-3 text-right"><a class="text-indigo-600" href="{{ route('offers.edit', $offer) }}">Editar</a><form class="inline" method="POST" action="{{ route('offers.destroy', $offer) }}">@csrf @method('DELETE')<button class="ml-3 text-red-600" onclick="return confirm('Remover esta oferta?')">Excluir</button></form></td></tr>@empty<tr><td class="p-3" colspan="6">Nenhuma oferta cadastrada.</td></tr>@endforelse
-            </tbody></table>{{ $offers->links() }}
-        </div></div>
-    </div></div>
+    <x-slot name="title">Promoções</x-slot>
+    <x-slot name="header"><div><div><span class="section-kicker">Catálogo</span><h1>Promoções</h1></div><a href="{{ route('offers.create') }}" class="button"><span>+</span> Nova promoção</a></div></x-slot>
+
+    @if(session('status'))<div class="admin-notice is-success">{{ session('status') }}</div>@endif
+
+    <section class="catalog-manager offer-manager">
+        <header class="catalog-manager-header"><div><h2>Produtos publicados</h2><p>{{ $offers->total() }} {{ $offers->total() === 1 ? 'promoção cadastrada' : 'promoções cadastradas' }}</p></div></header>
+        <div class="catalog-list">
+            @forelse($offers as $offer)
+                <article class="offer-manager-row">
+                    @if($offer->image_url)<div class="offer-manager-image"><img src="{{ $offer->image_url }}" alt=""></div>@else<div class="offer-manager-image is-empty">{{ Str::upper(Str::substr($offer->title, 0, 1)) }}</div>@endif
+                    <div class="offer-manager-copy"><strong>{{ $offer->title }}</strong><span>{{ $offer->store->name }} · {{ $offer->category->name }}</span></div>
+                    <div class="offer-manager-price"><strong>R$ {{ number_format($offer->current_price, 2, ',', '.') }}</strong>@if($offer->old_price)<span>de R$ {{ number_format($offer->old_price, 2, ',', '.') }}</span>@endif</div>
+                    <div class="offer-manager-status"><span class="status-badge {{ $offer->is_active && ! $offer->isExpired() ? 'is-active' : 'is-inactive' }}">{{ $offer->is_active && ! $offer->isExpired() ? 'Ativa' : 'Inativa' }}</span>@if($offer->is_featured)<small>Destaque</small>@endif</div>
+                    <div class="catalog-row-actions"><a href="{{ route('offers.edit', $offer) }}">Editar</a><form method="POST" action="{{ route('offers.destroy', $offer) }}">@csrf @method('DELETE')<button type="submit" onclick="return confirm('Excluir esta promoção?')">Excluir</button></form></div>
+                </article>
+            @empty
+                <div class="catalog-manager-empty"><h2>Seu catálogo está vazio</h2><p>Cadastre uma promoção para começar a montar a vitrine pública.</p><a href="{{ route('offers.create') }}" class="button">Criar promoção</a></div>
+            @endforelse
+        </div>
+        @if($offers->hasPages())<div class="manager-pagination">{{ $offers->links() }}</div>@endif
+    </section>
 </x-app-layout>

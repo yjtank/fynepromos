@@ -22,7 +22,10 @@ class FriendlyAdminRoutesTest extends TestCase
 
         $this->actingAs($user)->get('/painel')->assertOk();
         $this->actingAs($user)->get('/painel/promos')->assertOk();
-        $this->actingAs($user)->get('/painel/promos/nova')->assertOk();
+        $this->actingAs($user)->get('/painel/promos/nova')
+            ->assertOk()
+            ->assertSee('Promoção ativa')
+            ->assertSee('toggle-control', escape: false);
         $this->actingAs($user)->get('/painel/perfil')->assertOk();
     }
 
