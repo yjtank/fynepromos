@@ -10,22 +10,6 @@
                 <span class="result-count">{{ $offers->total() }} {{ $offers->total() === 1 ? 'resultado' : 'resultados' }}</span>
             </div>
 
-            <form method="GET" action="{{ route('home') }}" class="filter-panel">
-                <label class="search-field">
-                    <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-                    <span class="sr-only">Buscar produto</span>
-                    <input name="search" value="{{ request('search') }}" placeholder="Qual produto você procura?">
-                </label>
-                <label class="select-field"><span class="sr-only">Loja</span>
-                    <select name="store">
-                        <option value="">Todas as lojas</option>
-                        @foreach($stores as $store)<option value="{{ $store->id }}" @selected(request('store') == $store->id)>{{ $store->name }}</option>@endforeach
-                    </select>
-                </label>
-                <button class="button filter-button">Buscar</button>
-                @if(request()->hasAny(['search', 'category', 'store']))<a class="clear-filter" href="{{ route('home') }}">Limpar</a>@endif
-            </form>
-
             <div class="category-strip" aria-label="Categorias">
                 <a href="{{ route('home', request()->except(['category', 'page'])) }}#ofertas" class="category-chip {{ request('category') ? '' : 'is-active' }}">Todas</a>
                 @foreach($categories as $category)

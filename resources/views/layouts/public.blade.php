@@ -19,9 +19,7 @@
                     <input name="search" value="{{ request('search') }}" placeholder="Procurar produto..." aria-label="Procurar produto">
                 </form>
             @endif
-            <div class="site-header-actions">
-                @auth<a href="{{ route('dashboard') }}" class="button button--quiet">Dashboard</a>@else<a href="{{ route('login') }}" class="button button--quiet">Entrar</a>@endauth
-            </div>
+            @auth<div class="site-header-actions"><a href="{{ route('dashboard') }}" class="button button--quiet">Dashboard</a></div>@endauth
         </div>
     </header>
     <main>@yield('content')</main>
