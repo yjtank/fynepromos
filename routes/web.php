@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicOfferController;
+use App\Http\Controllers\StoreController;
 use App\Models\Offer;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +35,20 @@ Route::prefix('painel')->group(function () {
         Route::get('/promos/{offer:slug}/editar', [OfferController::class, 'edit'])->name('offers.edit');
         Route::match(['put', 'patch'], '/promos/{offer:slug}', [OfferController::class, 'update'])->name('offers.update');
         Route::delete('/promos/{offer:slug}', [OfferController::class, 'destroy'])->name('offers.destroy');
+
+        Route::get('/categorias', [CategoryController::class, 'index'])->name('categories.index');
+        Route::get('/categorias/nova', [CategoryController::class, 'create'])->name('categories.create');
+        Route::post('/categorias', [CategoryController::class, 'store'])->name('categories.store');
+        Route::get('/categorias/{category:slug}/editar', [CategoryController::class, 'edit'])->name('categories.edit');
+        Route::match(['put', 'patch'], '/categorias/{category:slug}', [CategoryController::class, 'update'])->name('categories.update');
+        Route::delete('/categorias/{category:slug}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
+        Route::get('/lojas', [StoreController::class, 'index'])->name('stores.index');
+        Route::get('/lojas/nova', [StoreController::class, 'create'])->name('stores.create');
+        Route::post('/lojas', [StoreController::class, 'store'])->name('stores.store');
+        Route::get('/lojas/{store:slug}/editar', [StoreController::class, 'edit'])->name('stores.edit');
+        Route::match(['put', 'patch'], '/lojas/{store:slug}', [StoreController::class, 'update'])->name('stores.update');
+        Route::delete('/lojas/{store:slug}', [StoreController::class, 'destroy'])->name('stores.destroy');
     });
 
     Route::middleware('auth')->group(function () {

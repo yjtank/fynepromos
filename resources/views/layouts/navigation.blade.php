@@ -12,6 +12,12 @@
         <a href="{{ route('offers.create') }}" class="admin-nav-link {{ request()->routeIs('offers.create') ? 'is-active' : '' }}">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Nova oferta
         </a>
+        <a href="{{ route('categories.index') }}" class="admin-nav-link {{ request()->routeIs('categories.*') ? 'is-active' : '' }}">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><path d="M7 4v4M12 10v4M17 16v4"/></svg>Categorias
+        </a>
+        <a href="{{ route('stores.index') }}" class="admin-nav-link {{ request()->routeIs('stores.*') ? 'is-active' : '' }}">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 20h16M6 20V8l6-4 6 4v12M9 20v-5h6v5"/><path d="M9 10h.01M15 10h.01"/></svg>Lojas
+        </a>
         <p class="admin-nav-label">Conta</p>
         <a href="{{ route('profile.edit') }}" class="admin-nav-link {{ request()->routeIs('profile.*') ? 'is-active' : '' }}">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg>Perfil
