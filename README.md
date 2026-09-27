@@ -6,7 +6,7 @@ Catálogo simples de promoções de tecnologia, mantido manualmente. O projeto r
 
 - Laravel 12
 - PHP 8.2+
-- SQLite por padrão (MySQL opcional)
+- MySQL
 - Blade, CSS e JavaScript estáticos (sem npm ou etapa de build)
 - Laravel Breeze para autenticação
 
@@ -30,7 +30,7 @@ copy .env.example .env
 php artisan key:generate
 ```
 
-O ambiente local usa `database/database.sqlite` por padrão, sem depender de um servidor de banco. Para usar MySQL, altere o `.env`:
+Configure a conexão MySQL no `.env`:
 
 ```env
 DB_CONNECTION=mysql
