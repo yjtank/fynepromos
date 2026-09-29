@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicOfferController;
+use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\StoreController;
 use App\Models\Offer;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,9 @@ Route::prefix('painel')->group(function () {
         Route::get('/lojas/{store:slug}/editar', [StoreController::class, 'edit'])->name('stores.edit');
         Route::match(['put', 'patch'], '/lojas/{store:slug}', [StoreController::class, 'update'])->name('stores.update');
         Route::delete('/lojas/{store:slug}', [StoreController::class, 'destroy'])->name('stores.destroy');
+
+        Route::get('/rodape', [SiteSettingController::class, 'edit'])->name('settings.edit');
+        Route::put('/rodape', [SiteSettingController::class, 'update'])->name('settings.update');
     });
 
     Route::middleware('auth')->group(function () {

@@ -18,6 +18,10 @@
         <a href="{{ route('stores.index') }}" class="admin-nav-link {{ request()->routeIs('stores.*') ? 'is-active' : '' }}">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 20h16M6 20V8l6-4 6 4v12M9 20v-5h6v5"/><path d="M9 10h.01M15 10h.01"/></svg>Lojas
         </a>
+        <p class="admin-nav-label">Site</p>
+        <a href="{{ route('settings.edit') }}" class="admin-nav-link {{ request()->routeIs('settings.*') ? 'is-active' : '' }}">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 8h8M8 12h5M8 16h7"/></svg>Rodapé e links
+        </a>
         <p class="admin-nav-label">Conta</p>
         <a href="{{ route('profile.edit') }}" class="admin-nav-link {{ request()->routeIs('profile.*') ? 'is-active' : '' }}">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg>Perfil

@@ -63,11 +63,24 @@
     <button class="site-menu-backdrop" type="button" data-site-menu-close aria-label="Fechar menu"></button>
     <main>@yield('content')</main>
     <footer class="site-footer">
-        <div class="container site-footer-inner">
-            <a href="{{ route('home') }}" class="brand"><x-application-logo /></a>
-            <p>Curadoria direta ao ponto para você pagar menos.</p>
-            <span>© {{ date('Y') }} FynePromos</span>
+        <div class="container site-footer-grid">
+            <section class="site-footer-intro">
+                <a href="{{ route('home') }}" class="footer-brand">{{ $siteSettings->site_name }}</a>
+                <p>{{ $siteSettings->footer_description }}</p>
+                <div class="footer-socials" aria-label="Redes sociais">
+                    <a href="{{ $siteSettings->whatsapp_url }}" aria-label="WhatsApp" @if($siteSettings->whatsapp_url !== '#') target="_blank" rel="noopener noreferrer" @endif>
+                        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.5L3.5 20.5l1.2-4.2A8.5 8.5 0 1 1 20.5 11.8Z"/><path d="M8.3 7.7c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .5.4l.7 1.6c.1.3.1.5 0 .7l-.5.6c-.2.2-.2.4 0 .7.5.9 1.3 1.7 2.2 2.2.3.2.5.2.7 0l.6-.7c.2-.2.4-.2.7-.1l1.6.7c.3.1.4.3.4.5v.5c0 .3-.1.5-.4.7-.5.3-1.1.4-1.7.3-1.1-.2-2.3-.8-3.7-2.1-1.2-1.1-2-2.4-2.3-3.5-.2-.7-.1-1.4.3-2Z"/></svg>
+                    </a>
+                    <a href="{{ $siteSettings->instagram_url }}" aria-label="Instagram" @if($siteSettings->instagram_url !== '#') target="_blank" rel="noopener noreferrer" @endif>
+                        <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.8" r=".8" fill="currentColor" stroke="none"/></svg>
+                    </a>
+                </div>
+            </section>
+            <section class="site-footer-links"><h2>Explorar</h2><a href="{{ route('promos.index') }}">Todas as promoções</a><a href="{{ route('promos.featured') }}">Destaques</a><a href="{{ route('home') }}">Início</a></section>
+            <section class="site-footer-links"><h2>Categorias</h2>@foreach(($categories ?? collect())->take(4) as $category)<a href="{{ route('promos.category', $category) }}">{{ $category->name }}</a>@endforeach</section>
+            <section class="site-footer-callout"><span class="section-kicker">Ofertas atualizadas</span><h2>Encontre a próxima oportunidade.</h2><a href="{{ route('promos.index') }}" class="button button--quiet">Ver promoções</a></section>
         </div>
+        <div class="container site-footer-bottom"><span>© {{ date('Y') }} {{ $siteSettings->site_name }}</span><span>Todos os direitos reservados.</span></div>
     </footer>
 </body>
 </html>
