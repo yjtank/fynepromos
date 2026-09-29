@@ -20,9 +20,14 @@ class FriendlyAdminRoutesTest extends TestCase
 
         $user = User::factory()->create();
 
-        $this->actingAs($user)->get('/painel')->assertOk();
-        $this->actingAs($user)->get('/painel/promos')->assertOk();
-        $this->actingAs($user)->get('/painel/promos/nova')
+        $this->actingAs($user)->get('/painel')->assertForbidden();
+        $this->actingAs($user)->get('/painel/promos')->assertForbidden();
+
+        $admin = User::factory()->admin()->create();
+
+        $this->actingAs($admin)->get('/painel')->assertOk();
+        $this->actingAs($admin)->get('/painel/promos')->assertOk();
+        $this->actingAs($admin)->get('/painel/promos/nova')
             ->assertOk()
             ->assertSee('Promoção ativa')
             ->assertSee('toggle-control', escape: false);
@@ -42,7 +47,7 @@ class FriendlyAdminRoutesTest extends TestCase
             'purchase_url' => 'https://example.com/notebook',
         ]);
 
-        $this->actingAs(User::factory()->create())
+        $this->actingAs(User::factory()->admin()->create())
             ->get('/offers/'.$offer->id.'/edit')
             ->assertRedirect(route('offers.edit', $offer));
     }

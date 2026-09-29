@@ -14,7 +14,7 @@ class CatalogManagementTest extends TestCase
 
     public function test_verified_admin_can_manage_categories_and_stores(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->admin()->create();
 
         $this->actingAs($user)->post(route('categories.store'), [
             'name' => 'Audio',

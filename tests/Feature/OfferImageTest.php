@@ -27,7 +27,7 @@ class OfferImageTest extends TestCase
             base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=')
         );
 
-        $response = $this->actingAs(User::factory()->create())->post(route('offers.store'), [
+        $response = $this->actingAs(User::factory()->admin()->create())->post(route('offers.store'), [
             'category_id' => $category->id,
             'store_id' => $store->id,
             'title' => 'Produto com imagem',

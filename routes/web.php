@@ -24,10 +24,10 @@ Route::get('/oferta/{offer:slug}/clique', fn (Offer $offer) => to_route('promos.
 
 Route::prefix('painel')->group(function () {
     Route::get('/', DashboardController::class)
-        ->middleware(['auth', 'verified'])
+        ->middleware(['auth', 'verified', 'admin'])
         ->name('dashboard');
 
-    Route::middleware(['auth', 'verified'])->group(function () {
+    Route::middleware(['auth', 'verified', 'admin'])->group(function () {
         Route::get('/promos', [OfferController::class, 'index'])->name('offers.index');
         Route::get('/promos/nova', [OfferController::class, 'create'])->name('offers.create');
         Route::post('/promos', [OfferController::class, 'store'])->name('offers.store');

@@ -31,7 +31,7 @@
                     <button type="submit">Buscar</button>
                 </form>
             @endif
-            @auth<div class="site-header-actions"><a href="{{ route('dashboard') }}" class="button button--quiet">Dashboard</a></div>@endauth
+            @if(Auth::check() && Auth::user()->is_admin)<div class="site-header-actions"><a href="{{ route('dashboard') }}" class="button button--quiet">Painel</a></div>@endif
         </div>
     </header>
     <aside class="site-menu" data-site-menu aria-label="Menu principal">
@@ -46,7 +46,7 @@
             <a href="{{ route('home') }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10h-6v-6H9v6H3V11Z"/></svg>Início</a>
             <a href="{{ route('promos.index') }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m20 13-7 7-9-9V4h7l9 9Z"/><circle cx="8" cy="8" r="1"/></svg>Todas as ofertas</a>
             <a href="{{ route('promos.featured') }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg>Destaques</a>
-            @auth<a href="{{ route('dashboard') }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-16v4h6V4h-6Z"/></svg>Dashboard</a>@endauth
+            @if(Auth::check() && Auth::user()->is_admin)<a href="{{ route('dashboard') }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-16v4h6V4h-6Z"/></svg>Painel</a>@endif
 
             @isset($categories)
                 <span class="site-menu-label site-menu-label--spaced">Categorias</span>
