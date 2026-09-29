@@ -77,7 +77,7 @@ svg { display: block; }
 .site-menu-backdrop { position: fixed; z-index: 70; inset: 0; display: block; border: 0; background: rgba(0,0,0,.7); opacity: 0; pointer-events: none; transition: opacity .22s ease; }
 .site-menu-open .site-menu-backdrop { opacity: 1; pointer-events: auto; }
 .site-footer { margin-top: 76px; border-top: 1px solid var(--line); background: #07070c; }
-.site-footer-grid { display: grid; grid-template-columns: 1.4fr .8fr .8fr 1.1fr; gap: 34px; padding: 54px 0 44px; }
+.site-footer-grid { display: grid; grid-template-columns: 1.4fr .8fr .8fr; gap: 34px; padding: 54px 0 44px; }
 .site-footer-intro { max-width: 310px; }
 .footer-brand { display: inline-block; color: #a78bfa; font-size: 1.3rem; font-weight: 700; letter-spacing: -.045em; }
 .site-footer-intro p { margin: 14px 0 19px; color: var(--muted); font-size: .78rem; line-height: 1.7; }
@@ -89,9 +89,6 @@ svg { display: block; }
 .site-footer-links h2, .site-footer-callout h2 { margin: 0 0 5px; color: var(--text); font-size: .82rem; font-weight: 700; letter-spacing: -.02em; }
 .site-footer-links a { color: var(--muted); font-size: .74rem; transition: color .18s ease; }
 .site-footer-links a:hover { color: #c4b5fd; }
-.site-footer-callout { align-self: start; padding: 20px; border: 1px solid rgba(139,92,246,.28); border-radius: 15px; background: linear-gradient(135deg, rgba(124,58,237,.13), rgba(124,58,237,.03)); }
-.site-footer-callout h2 { margin: 8px 0 17px; font-size: 1.02rem; line-height: 1.35; }
-.site-footer-callout .button { min-height: 38px; padding-inline: 13px; font-size: .72rem; }
 .site-footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; border-top: 1px solid var(--line); color: #716d78; font-size: .67rem; }
 
 /* Public catalog */
@@ -427,7 +424,6 @@ svg { display: block; }
     .header-search input { height: 40px; }
     .site-footer-grid { grid-template-columns: 1fr; padding: 38px 0 32px; }
     .site-footer-intro { max-width: none; }
-    .site-footer-callout { max-width: 340px; }
     .site-footer-bottom { align-items: start; flex-direction: column; justify-content: center; gap: 4px; padding-block: 13px; }
     .site-header-actions { gap: 7px; }
     .brand-name { font-size: 1.05rem; }

@@ -78,7 +78,6 @@
             </section>
             <section class="site-footer-links"><h2>Explorar</h2><a href="{{ route('promos.index') }}">Todas as promoções</a><a href="{{ route('promos.featured') }}">Destaques</a><a href="{{ route('home') }}">Início</a></section>
             <section class="site-footer-links"><h2>Categorias</h2>@foreach(($categories ?? collect())->take(4) as $category)<a href="{{ route('promos.category', $category) }}">{{ $category->name }}</a>@endforeach</section>
-            <section class="site-footer-callout"><span class="section-kicker">Ofertas atualizadas</span><h2>Encontre a próxima oportunidade.</h2><a href="{{ route('promos.index') }}" class="button button--quiet">Ver promoções</a></section>
         </div>
         <div class="container site-footer-bottom"><span>© {{ date('Y') }} {{ $siteSettings->site_name }}</span><span>Todos os direitos reservados.</span></div>
     </footer>
