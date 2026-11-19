@@ -87,7 +87,7 @@ class OfferController extends Controller
 
     private function validated(Request $request): array
     {
-        return $request->validate([
+        $data = $request->validate([
             'category_id' => ['required', 'exists:categories,id'],
             'store_id' => ['required', 'exists:stores,id'],
             'title' => ['required', 'string', 'max:255'],
@@ -96,13 +96,45 @@ class OfferController extends Controller
             'image_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,avif', 'max:4096'],
             'current_price' => ['required', 'numeric', 'min:0'],
             'old_price' => ['nullable', 'numeric', 'min:0'],
-            'installment_info' => ['nullable', 'string', 'max:255'],
+            'installment_count' => ['nullable', 'integer', 'min:2', 'max:24'],
+            'installment_is_interest_free' => ['boolean'],
             'coupon' => ['nullable', 'string', 'max:255'],
             'purchase_url' => ['required', 'url', 'max:2048'],
             'expires_at' => ['nullable', 'date'],
             'is_featured' => ['boolean'],
             'is_active' => ['boolean'],
-        ]) + ['is_featured' => $request->boolean('is_featured'), 'is_active' => $request->boolean('is_active')];
+        ]) + [
+            'installment_is_interest_free' => $request->boolean('installment_is_interest_free'),
+            'is_featured' => $request->boolean('is_featured'),
+            'is_active' => $request->boolean('is_active'),
+        ];
+
+        $count = (int) ($data['installment_count'] ?? 0);
+        $data['installment_info'] = $count
+            ? $this->installmentInfo($count, (bool) $data['installment_is_interest_free'], (float) $data['current_price'])
+            : null;
+
+        unset($data['installment_count']);
+        unset($data['installment_is_interest_free']);
+
+        if ($count) {
+            $data['installment_count'] = $count;
+            $data['installment_is_interest_free'] = $request->boolean('installment_is_interest_free');
+        } else {
+            $data['installment_count'] = null;
+            $data['installment_is_interest_free'] = false;
+        }
+
+        return $data;
+    }
+
+    private function installmentInfo(int $count, bool $interestFree, float $price): string
+    {
+        $label = $count.'x';
+        $label .= ' de R$ '.number_format($price / $count, 2, ',', '.');
+        $label .= $interestFree ? ' sem juros' : ' (consulte juros)';
+
+        return $label;
     }
 
     private function withImage(Request $request, array $data, ?Offer $offer = null): array

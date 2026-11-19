@@ -12,7 +12,8 @@ class Offer extends Model
 
     protected $fillable = [
         'category_id', 'store_id', 'title', 'slug', 'description', 'image_url',
-        'current_price', 'old_price', 'installment_info', 'coupon', 'purchase_url',
+        'current_price', 'old_price', 'installment_info', 'installment_count',
+        'installment_is_interest_free', 'coupon', 'purchase_url',
         'expires_at', 'is_featured', 'is_active',
         'clicks_count',
     ];
@@ -25,6 +26,8 @@ class Offer extends Model
             'expires_at' => 'datetime',
             'is_featured' => 'boolean',
             'is_active' => 'boolean',
+            'installment_count' => 'integer',
+            'installment_is_interest_free' => 'boolean',
             'clicks_count' => 'integer',
         ];
     }
