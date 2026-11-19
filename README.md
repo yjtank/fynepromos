@@ -70,15 +70,15 @@ Altere a senha antes de publicar o projeto.
 
 ## Demonstração
 
-### Página inicial pública
+### Dashboard administrativo
 
 ![Página inicial pública](docs/screenshots/foto-1.png)
 
-### Dashboard administrativo
+### Página inicial pública
 
 ![Dashboard administrativo](docs/screenshots/foto-2.png)
 
-### Listagem de ofertas
+### Detalhes do produto
 
 ![Listagem de ofertas](docs/screenshots/foto-3.png)
 
