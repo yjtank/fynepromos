@@ -16,6 +16,36 @@ class OfferImageTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_offer_can_store_structured_installment_options(): void
+    {
+        $category = Category::create(['name' => 'Tecnologia', 'slug' => 'tecnologia']);
+        $store = Store::create(['name' => 'Loja teste', 'slug' => 'loja-teste']);
+
+        $response = $this->actingAs(User::factory()->admin()->create())->post(route('offers.store'), [
+            'category_id' => $category->id,
+            'store_id' => $store->id,
+            'title' => 'Produto parcelado',
+            'current_price' => 1200,
+            'installment_count' => 12,
+            'installment_is_interest_free' => '1',
+            'purchase_url' => 'https://example.com/produto',
+            'is_active' => '1',
+        ]);
+
+        $response->assertRedirect(route('offers.index'));
+
+        $offer = Offer::sole();
+        $this->assertSame(12, $offer->installment_count);
+        $this->assertTrue($offer->installment_is_interest_free);
+        $this->assertSame('12x de R$ 100,00 sem juros', $offer->installment_info);
+
+        $this->get(route('promos.show', $offer))
+            ->assertOk()
+            ->assertSee('data-price-mode="installments"', false)
+            ->assertSee('12x de R$ 100,00', false)
+            ->assertSee('Sem juros', false);
+    }
+
     public function test_authenticated_user_can_upload_an_offer_image(): void
     {
         Storage::fake('public');
