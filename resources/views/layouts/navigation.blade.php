@@ -15,6 +15,9 @@
         <a href="{{ route('categories.index') }}" class="admin-nav-link {{ request()->routeIs('categories.*') ? 'is-active' : '' }}">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><path d="M7 4v4M12 10v4M17 16v4"/></svg>Categorias
         </a>
+        <a href="{{ route('collections.index') }}" class="admin-nav-link {{ request()->routeIs('collections.*') ? 'is-active' : '' }}">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 9h8M8 13h5"/><path d="m16 15 2 2 3-4"/></svg>Coleções
+        </a>
         <a href="{{ route('stores.index') }}" class="admin-nav-link {{ request()->routeIs('stores.*') ? 'is-active' : '' }}">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 20h16M6 20V8l6-4 6 4v12M9 20v-5h6v5"/><path d="M9 10h.01M15 10h.01"/></svg>Lojas
         </a>

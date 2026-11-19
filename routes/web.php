@@ -3,7 +3,9 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicCollectionController;
 use App\Http\Controllers\PublicOfferController;
 use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\StoreController;
@@ -18,6 +20,11 @@ Route::prefix('promos')->name('promos.')->group(function () {
     Route::get('/categoria/{category:slug}', [PublicOfferController::class, 'category'])->name('category');
     Route::get('/{offer:slug}/ir-para-loja', [PublicOfferController::class, 'click'])->name('click');
     Route::get('/{offer:slug}', [PublicOfferController::class, 'show'])->name('show');
+});
+
+Route::prefix('colecoes')->name('collections.public.')->group(function () {
+    Route::get('/', [PublicCollectionController::class, 'index'])->name('index');
+    Route::get('/{collection:slug}', [PublicCollectionController::class, 'show'])->name('show');
 });
 
 Route::get('/oferta/{offer:slug}', fn (Offer $offer) => to_route('promos.show', $offer, 301));
@@ -36,6 +43,13 @@ Route::prefix('painel')->group(function () {
         Route::get('/promos/{offer:slug}/editar', [OfferController::class, 'edit'])->name('offers.edit');
         Route::match(['put', 'patch'], '/promos/{offer:slug}', [OfferController::class, 'update'])->name('offers.update');
         Route::delete('/promos/{offer:slug}', [OfferController::class, 'destroy'])->name('offers.destroy');
+
+        Route::get('/colecoes', [CollectionController::class, 'index'])->name('collections.index');
+        Route::get('/colecoes/nova', [CollectionController::class, 'create'])->name('collections.create');
+        Route::post('/colecoes', [CollectionController::class, 'store'])->name('collections.store');
+        Route::get('/colecoes/{collection:slug}/editar', [CollectionController::class, 'edit'])->name('collections.edit');
+        Route::match(['put', 'patch'], '/colecoes/{collection:slug}', [CollectionController::class, 'update'])->name('collections.update');
+        Route::delete('/colecoes/{collection:slug}', [CollectionController::class, 'destroy'])->name('collections.destroy');
 
         Route::get('/categorias', [CategoryController::class, 'index'])->name('categories.index');
         Route::get('/categorias/nova', [CategoryController::class, 'create'])->name('categories.create');
