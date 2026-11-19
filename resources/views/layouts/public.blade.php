@@ -24,7 +24,20 @@
                 <a href="{{ route('collections.public.index') }}" class="{{ request()->routeIs('collections.public.*') ? 'is-active' : '' }}">Coleções</a>
                 <a href="{{ route('promos.featured') }}" class="{{ request()->routeIs('promos.featured') ? 'is-active' : '' }}">Destaques</a>
                 @if(isset($categories) && $categories->isNotEmpty())
-                    <a href="{{ route('promos.category', $categories->first()) }}">Categorias</a>
+                    <div class="site-category-menu">
+                        <button type="button" class="{{ request()->routeIs('promos.category') ? 'is-active' : '' }}" aria-haspopup="true" aria-expanded="false">
+                            Categorias
+                            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"/></svg>
+                        </button>
+                        <div class="site-category-dropdown">
+                            @foreach($categories as $category)
+                                <a href="{{ route('promos.category', $category) }}" class="{{ request()->routeIs('promos.category') && request()->route('category')?->is($category) ? 'is-active' : '' }}">
+                                    {{ $category->name }}
+                                    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
                 @endif
             </nav>
             @if(request()->routeIs('home', 'promos.*'))
