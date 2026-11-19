@@ -51,16 +51,6 @@ php artisan serve
 
 Acesse `http://127.0.0.1:8000`.
 
-## Personalização visual
-
-O tema não depende de React, npm, Vite ou Tailwind em tempo de desenvolvimento. Os arquivos usados pelo navegador ficam diretamente em:
-
-- `public/css/app.css`: identidade visual, componentes e responsividade
-- `public/css/vendor.css`: utilitários legados usados pelas telas secundárias
-- `public/js/app.js`: menu móvel e cópia de cupons
-
-As principais decisões visuais estão concentradas nas variáveis do bloco `:root` no início de `public/css/app.css`. Altere cores, tipografia, raios, sombras e largura máxima ali para customizar toda a interface.
-
 ## Acesso administrativo local
 
 ```text
@@ -68,7 +58,7 @@ E-mail: admin@fynepromos.test
 Senha: password
 ```
 
-O acesso às ofertas fica em `/offers`. Altere a senha antes de publicar o projeto.
+Altere a senha antes de publicar o projeto.
 
 ## Fluxo de cadastro
 
