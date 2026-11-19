@@ -28,15 +28,20 @@
                 <h1>{{ $offer->title }}</h1>
 
                 <div class="product-price-tabs" aria-label="Tipo de preço">
-                    <span class="is-active">À vista</span>
-                    @if($offer->installment_info)<span>Parcelado</span>@endif
+                    <button type="button" class="is-active" data-price-mode="cash" aria-pressed="true">À vista</button>
+                    @if($offer->installment_count || $offer->installment_info)<button type="button" data-price-mode="installments" aria-pressed="false">Parcelado</button>@endif
                 </div>
 
                 <div class="product-price-card">
-                    <p>Melhor preço à vista via <strong>{{ $offer->store->name }}</strong></p>
+                    <p data-price-description data-cash-description="Melhor preço à vista via {{ $offer->store->name }}" data-installment-description="Opção parcelada via {{ $offer->store->name }}">Melhor preço à vista via <strong>{{ $offer->store->name }}</strong></p>
                     @if($offer->old_price)<del>R$ {{ number_format($offer->old_price, 2, ',', '.') }}</del>@endif
-                    <strong class="product-current-price">R$ {{ number_format($offer->current_price, 2, ',', '.') }}</strong>
-                    @if($offer->installment_info)<span>{{ $offer->installment_info }}</span>@endif
+                    <strong class="product-current-price" data-cash-price>R$ {{ number_format($offer->current_price, 2, ',', '.') }}</strong>
+                    @if($offer->installment_count)
+                        <strong class="product-current-price" data-installment-price hidden>{{ $offer->installment_count }}x de R$ {{ number_format($offer->current_price / $offer->installment_count, 2, ',', '.') }}</strong>
+                        <span data-installment-detail hidden>{{ $offer->installment_is_interest_free ? 'Sem juros' : 'Consulte as condições da loja' }}</span>
+                    @elseif($offer->installment_info)
+                        <strong class="product-current-price" data-installment-price hidden>{{ $offer->installment_info }}</strong>
+                    @endif
                     @if($offer->coupon)<div class="product-coupon"><span>Cupom disponível</span><strong>{{ $offer->coupon }}</strong><button type="button" data-copy="{{ $offer->coupon }}">Copiar cupom</button></div>@endif
                 </div>
 

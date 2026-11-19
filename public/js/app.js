@@ -31,4 +31,30 @@
             setTimeout(() => { button.textContent = original; }, 1800);
         } catch (_) {}
     }));
+
+    document.querySelectorAll('[data-price-mode]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const mode = button.dataset.priceMode;
+            const summary = button.closest('.product-summary');
+            const card = summary?.querySelector('.product-price-card');
+            if (!card) return;
+
+            button.parentElement.querySelectorAll('[data-price-mode]').forEach((tab) => {
+                const active = tab === button;
+                tab.classList.toggle('is-active', active);
+                tab.setAttribute('aria-pressed', String(active));
+            });
+
+            card.querySelector('[data-cash-price]')?.toggleAttribute('hidden', mode !== 'cash');
+            card.querySelector('[data-installment-price]')?.toggleAttribute('hidden', mode !== 'installments');
+            card.querySelector('[data-installment-detail]')?.toggleAttribute('hidden', mode !== 'installments');
+
+            const description = card.querySelector('[data-price-description]');
+            if (description) {
+                description.textContent = mode === 'installments'
+                    ? description.dataset.installmentDescription
+                    : description.dataset.cashDescription;
+            }
+        });
+    });
 })();
