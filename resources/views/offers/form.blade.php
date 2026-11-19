@@ -16,7 +16,21 @@
         <section class="offer-form-section">
             <header><h2>Preço e condições</h2><p>Informe o valor atual e as condições da promoção.</p></header>
             <div class="form-two-columns"><div class="form-field"><label for="current_price">Preço atual</label><input id="current_price" type="number" step="0.01" min="0" name="current_price" value="{{ old('current_price', $offer?->current_price) }}" required placeholder="0,00"><x-input-error :messages="$errors->get('current_price')" /></div><div class="form-field"><label for="old_price">Preço anterior <span>opcional</span></label><input id="old_price" type="number" step="0.01" min="0" name="old_price" value="{{ old('old_price', $offer?->old_price) }}" placeholder="0,00"><x-input-error :messages="$errors->get('old_price')" /></div></div>
-            <div class="form-two-columns"><div class="form-field"><label for="installment_info">Parcelamento <span>opcional</span></label><input id="installment_info" name="installment_info" value="{{ old('installment_info', $offer?->installment_info) }}" placeholder="Ex.: 12x sem juros"></div><div class="form-field"><label for="coupon">Cupom <span>opcional</span></label><input id="coupon" name="coupon" value="{{ old('coupon', $offer?->coupon) }}" placeholder="Ex.: PROMO10"></div></div>
+            <div class="form-two-columns">
+                <div class="form-field">
+                    <label for="installment_count">Parcelamento <span>opcional</span></label>
+                    <input id="installment_count" type="number" min="2" max="24" name="installment_count" value="{{ old('installment_count', $offer?->installment_count) }}" placeholder="Ex.: 12">
+                    <x-input-error :messages="$errors->get('installment_count')" />
+                </div>
+                <div class="form-field"><label for="coupon">Cupom <span>opcional</span></label><input id="coupon" name="coupon" value="{{ old('coupon', $offer?->coupon) }}" placeholder="Ex.: PROMO10"></div>
+            </div>
+            <div class="form-toggle-grid">
+                <label class="toggle-field">
+                    <input type="checkbox" name="installment_is_interest_free" value="1" @checked(old('installment_is_interest_free', $offer?->installment_is_interest_free ?? true))>
+                    <span class="toggle-control" aria-hidden="true"></span>
+                    <span><strong>Sem juros</strong><small>Divide o preço atual em parcelas iguais.</small></span>
+                </label>
+            </div>
             <div class="form-field"><label for="purchase_url">Link de compra</label><input id="purchase_url" type="url" name="purchase_url" value="{{ old('purchase_url', $offer?->purchase_url) }}" required placeholder="https://..."><x-input-error :messages="$errors->get('purchase_url')" /></div>
             <div class="form-field form-field--compact"><label for="expires_at">Validade <span>opcional</span></label><input id="expires_at" type="datetime-local" name="expires_at" value="{{ old('expires_at', $offer?->expires_at?->format('Y-m-d\\TH:i')) }}"></div>
         </section>
