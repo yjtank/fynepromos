@@ -7,7 +7,7 @@ Catálogo simples de promoções de tecnologia, mantido manualmente. O projeto r
 - Laravel 12
 - PHP 8.2+
 - MySQL
-- Blade, CSS e JavaScript estáticos (sem npm ou etapa de build)
+- Blade, CSS e JavaScript estáticos
 - Laravel Breeze para autenticação
 
 ## Funcionalidades
